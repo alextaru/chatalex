@@ -39,7 +39,6 @@ block content
           .panel-footer
             .row
               .col-xs-9
-                input(type="hidden",id="nome",value="#{session.nome}")
                 input.form-control.chat-input(type="text",id="msg", placeholder="Mensagem", onkeypress="return enviar(event);")
               .col-xs-3
                 button.btn.btn-primary.btn-block(onclick="enviar(true);") Enviar
@@ -53,17 +52,17 @@ block scripts
     socket.on('send-client', function(msg){
       document.getElementById('chat').innerHTML += msg;
     });
-    var enviar = function(botao){
+    var enviar = function(msg){
       if(botao == true){
         var nome = document.getElementById('nome').value;
         var msg = document.getElementById('msg').value;
-        socket.emit('send-server',{nome: nome,msg: msg});
+        socket.emit('send-server',{msg});
         document.getElementById('msg').value="";
       }else{
         if(botao.keyCode==13){
           var nome = document.getElementById('nome').value;
           var msg = document.getElementById('msg').value;
-          socket.emit('send-server',{nome: nome,msg: msg});
+          socket.emit('send-server',{msg});
           document.getElementById('msg').value="";
         }
       }
