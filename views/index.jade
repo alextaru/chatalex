@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+  h1 Amigos
+  a(href="/amigos/create",class="btn btn-success") Cadastrar
+  br
+  br
+  if messages.erro
+    div(class="alert alert-danger")
+      p #{messages.erro}
+    br
+  if messages.info
+    div(class="alert alert-success")
+      p #{messages.info}
+    br
+  if lista.length > 0
+    div(class="table-responsive")
+      table(class="table table-striped")
+        thead
+          tr
+            th Nome:
+            th Acões:
+        tdoby
+          each valor in lista
+            tr
+              td #{valor.nome}
+              td
+                a(href="/amigos/show/#{valor._id}", class="btn btn-info")
+                  span(class="glyphicon glyphicon-search")
+                span &nbsp;
+                a(href="/amigos/chat/#{valor._id}", class="btn btn-primary")
+                  span(class="glyphicon glyphicon-comment")
+                span &nbsp;
+                a(href="/contatos/#{valor._id}", class="btn btn-success")
+                  span(class="glyphicon glyphicon-plus")
+  else
+    p Nenhum registro encontrado!

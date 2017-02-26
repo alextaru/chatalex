@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  h1 #{model.nome}
+  br
+  p
+    b E-mail: #{model.email}
+  p
+    b Data de Cadastro: #{moment(model.data_cad).format('DD/MM/YYYY HH:MM:ss')}
+  br
+  form(method="POST", action="/amigos/delete/#{model._id}", role="form", id="excluir-form")
+    button(type="submit", class="btn btn-danger") Excluir
+    span &nbsp;
+    a(href="/amigos/edit/#{model._id}",class="btn btn-success") Editar
+  br
+  a(href="/amigos") Voltar
+block scripts
+  script(type="application/javascript").
+    $(function(){
+      $('#excluir-form').submit(function(){
+        var pergunta = confirm('Deseja realment excluir?');
+        if(!pergunta){
+          return false;
+        }
+      });
+    });

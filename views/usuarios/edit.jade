@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  h1 Atualizar Usuários
+  hr
+  br
+  if messages.erro
+    div(class="alert alert-danger")
+      each msg in messages.erro
+        b= msg
+        br
+    br
+  form(method="POST", action="/usuarios/edit/#{dados.id}", role="form")
+    div(class="form-group")
+      label Nome
+      input(type="text", class="form-control", name="nome", placeholder="Nome",value="#{dados.nome}", autofocus, required)
+    div(class="form-group")
+      label E-mail
+      input(type="email", class="form-control", name="email", placeholder="E-mail",value="#{dados.email}",disabled)
+    div(class="form-group")
+      label Site
+      input(type="text", class="form-control", name="site", placeholder="site", value="#{dados.site}", required)
+    div(class="form-group")
+      label Senha
+      input(type="password", class="form-control",name="password", placeholder="Senha", disabled)
+    div(class="form-group")
+      label Confirmar Senha
+      input(type="password", class="form-control",name="password_confirmar", placeholder="Confirmar Senha", disabled)
+    button(type="submit" class="btn btn-success") Salvar
+  br
+  a(href="/usuarios") Voltar

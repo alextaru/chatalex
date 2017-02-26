@@ -1,0 +1,70 @@
+extends ../layout
+
+block content
+  link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', rel='stylesheet')
+  .container
+    .col-md-12.col-lg-6
+      .panel
+        // Heading
+        .panel-heading
+          .panel-control
+            .btn-group
+              button.btn.btn-default(type='button', data-toggle='collapse', data-target='#demo-chat-body')
+                i.fa.fa-chevron-down
+              button.btn.btn-default(type='button', data-toggle='dropdown')
+                i.fa.fa-gear
+              ul.dropdown-menu.dropdown-menu-right
+                li
+                  a(href='#') Available
+                li
+                  a(href='#') Busy
+                li
+                  a(href='#') Away
+                li.divider
+                li
+                  a#demo-connect-chat.disabled-link(href='#', data-target='#demo-chat-body') Connect
+                li
+                  a#demo-disconnect-chat(href='#', data-target='#demo-chat-body') Disconect
+          h3.panel-title Chat
+        // Widget body
+        #demo-chat-body.collapse.in
+          .nano.has-scrollbar(style='height:380px')
+            .nano-content.pad-all(tabindex='0', style='right: -17px;')
+              ul.list-unstyled.media-block
+                li.mar-btm
+                  pre(id="chat")            
+            .nano-pane
+              .nano-slider(style='height: 141px; transform: translate(0px, 0px);')
+          // Widget footer
+          .panel-footer
+            .row
+              .col-xs-9
+                input(type="hidden",id="nome",value="#{session.nome}")
+                input.form-control.chat-input(type="text",id="msg", placeholder="Mensagem", onkeypress="return enviar(event);")
+              .col-xs-3
+                button.btn.btn-primary.btn-block(onclick="enviar(true);") Enviar
+                
+block scripts
+  script(type="application/javascript", src="/socket.io/socket.io.js")
+  link(rel='stylesheet', href='/css/chat.css')
+  
+  script(type="application/javascript").
+    var socket = io.connect();
+    socket.on('send-client', function(msg){
+      document.getElementById('chat').innerHTML += msg;
+    });
+    var enviar = function(botao){
+      if(botao == true){
+        var nome = document.getElementById('nome').value;
+        var msg = document.getElementById('msg').value;
+        socket.emit('send-server',{nome: nome,msg: msg});
+        document.getElementById('msg').value="";
+      }else{
+        if(botao.keyCode==13){
+          var nome = document.getElementById('nome').value;
+          var msg = document.getElementById('msg').value;
+          socket.emit('send-server',{nome: nome,msg: msg});
+          document.getElementById('msg').value="";
+        }
+      }
+    };

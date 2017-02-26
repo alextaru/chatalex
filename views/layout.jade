@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title= title
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/layout.css")
+  body
+    div(class="container")
+      if isLogged == true
+        div(class="masthead")
+          h3(class="text-muted") Contatos
+            include partials/menu  
+      
+      block content
+      
+      include partials/footer
+    
+    script(type="application/javascript", src="/js/jquery-3.1.1.min.js")
+    script(type="application/javascript", src="/js/bootstrap.min.js")
+    block scripts

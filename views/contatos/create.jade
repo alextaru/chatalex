@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+  h1 Cadastro de Contato
+  hr
+  br
+  if messages.erro
+    div(class="alert alert-danger")
+      each msg in messages.erro
+        b= msg
+        br
+    br
+  form(method="POST", action="/contatos/create/#{id}", role="form")
+    div(class="form-group")
+      label Tipo de telefone
+      select(class="form-control", name="contatos[tipo]")
+        option(value="Residencial") Residencial
+        option(value="Comercial") Comercial
+        option(value="Celular") Celular
+        option(value="Orelhão") Orelhão
+    div(class="form-group")
+      label Telefone
+      input(type="text",class="form-control", name="contatos[telefone]", value="#{model.telefone || ''}", placeholder="Telefone", required)
+    button(type="submit", class="btn btn-succes" ) Salvar
+  br
+  br
+  a(href="/contatos/#{id}") Voltar
+  
+block scripts
+  script(type="application/javascript", src="/js/jquery.mask.min.js")
+  script(type="application/javascript").
+    $(function(){
+      $('input[name="contatos[telefone]"]').mask('(00) 00000-0000');
+    });
